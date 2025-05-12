@@ -9,24 +9,55 @@ public class VulnerableApp {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "password");
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM users WHERE username = '" + userInput + "'";
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                System.out.println("User: " + rs.getString("username"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            Sanitize user input before rendering it as HTML:
 
-        // Command Injection Vulnerability
-        String filename = args[1];
-        try {
-            Runtime.getRuntime().exec("sh -c ls " + filename);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+Sanitize user input before rendering it as HTML:
 
-        // XSS Vulnerability (Simulated for web context)
-        String comment = "<script>alert('XSS');</script>";
-        System.out.println("User comment: " + comment);  // Simulate response output
-    }
+```java
+// Import the OWASP ESAPI library
+import org.owasp.esapi.ESAPI;
+
+// Instead of:
+out.println(userInput);
+
+Avoid using user input in command execution. If necessary, validate and sanitize the input:
+
+```java
+// Instead of:
+Runtime.getRuntime().exec("cmd.exe /c " + userInput);
+
+// Use a whitelist approach:
+List<String> allowedCommands = Arrays.asList("ls", "dir", "echo");
+if (!allowedCommands.contains(userInput)) {
+    throw new SecurityException("Invalid command");
 }
+Runtime.getRuntime().exec(userInput);
+```\nout.println(ESAPI.encoder().encodeForHTML(userInput));
+```\n// Import the OWASP ESAPI library
+import org.owasp.esapi.ESAPI;
+
+        }
+
+Sanitize user input before rendering it as HTML:
+
+```java
+// Import the OWASP ESAPI library
+import org.owasp.esapi.ESAPI;
+
+// Instead of:
+out.println(userInput);
+
+// Use:
+out.println(ESAPI.encoder().encodeForHTML(userInput));
+```\n        Avoid using user input in command execution. If necessary, validate and sanitize the input:
+
+```java
+// Instead of:
+Runtime.getRuntime().exec("cmd.exe /c " + userInput);
+
+
+        Sanitize user input before rendering it as HTML:
+
+```java
+// Import the OWASP ESAPI library
+import org.owasp.esapi.ESAPI;
