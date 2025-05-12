@@ -1,0 +1,8 @@
+<!-- pom.xml snippet -->
+<dependencies>
+    <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.2.1</version> <!-- CVE-2015-6420: Deserialization vulnerability -->
+    </dependency>
+</dependencies>
